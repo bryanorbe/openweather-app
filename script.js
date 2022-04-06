@@ -118,7 +118,41 @@ searchCityEl.addEventListener("click", function(){
 
 //function to display search history
 
+function displaySearchHistory() {
+    historyEl.innerHTML = "";
+    console.log(searchHistory);
+    for (var i = 0; i < searchHistory.length; i++) {
+       var pastCity = document.createElement("input");
+       pastCity.setAttribute("type","text");
+       pastCity.setAttribute("readonly",true);
+       pastCity.setAttribute("class", "form-control d-block bg-white");
+       pastCity.setAttribute("value", searchHistory[i]);
+       let cityName = searchHistory[i];
+       pastCity.addEventListener("click",function() {
+          getWeather(cityName);  
+       })
+       historyEl.append(pastCity);
+    }
+ }
+ 
+ displaySearchHistory();
+ if (searchHistory.length > 0) {
+    getWeather(searchHistory[searchHistory.length - 1]);
+ }
+ 
 
 //function the clear search
 
+clearHistoryEl.addEventListener("click",function() {
+    searchHistory = [];
+    localStorage.setItem("search",JSON.stringify(searchHistory));
+    displaySearchHistory();
+ })
+ 
 //convert to Farenheit 
+
+
+function convertToFahrenheit(k) {
+    return Math.floor((k - 273.15) * 1.8 + 32);
+ }
+   
